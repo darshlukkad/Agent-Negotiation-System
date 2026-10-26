@@ -1,0 +1,17 @@
+{
+  "release": "agent-negotiation-v1",
+  "adapter": "system",
+  "model": "gpt-4o-mini-2024-07-18",
+  "prompt_version": "v1",
+  "orchestrator_version": "v1",
+  "negotiation_rounds": 3,
+  "agent_types": ["cost", "security", "performance"],
+  "temperature": 0.3,
+  "eval_set_hash": "ce412a6f9bdd465c570c9ccef647c92bb3a0dbae402f1276cc2f438086f6d5d6",
+  "gate": {
+    "runs": 5,
+    "max_drop_sigma": 2.5,
+    "max_token_increase": 0.25,
+    "critical": ["constraint-enforcement"]
+  }
+}

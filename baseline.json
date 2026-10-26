@@ -1,0 +1,11 @@
+{
+  "mean_pass_rate": 1.0,
+  "std_pass_rate": 0.0,
+  "mean_tokens": 20194,
+  "category_pass_rates": {
+    "cloud-deployment": 1.0,
+    "vendor-selection": 1.0,
+    "constraint-enforcement": 1.0
+  },
+  "runs": 5
+}
