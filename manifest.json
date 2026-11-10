@@ -7,6 +7,7 @@
   "negotiation_rounds": 3,
   "agent_types": ["cost", "security", "performance"],
   "temperature": 0.3,
+  "hash_algorithm": "sha256",
   "eval_set_hash": "ce412a6f9bdd465c570c9ccef647c92bb3a0dbae402f1276cc2f438086f6d5d6",
   "gate": {
     "runs": 5,
