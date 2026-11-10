@@ -28,13 +28,25 @@ except ImportError:
     sys.exit(1)
 
 
-def compute_hash(filepath: str) -> str:
-    """Compute SHA-256 hash of a file."""
-    sha256 = hashlib.sha256()
+DEFAULT_HASH_ALGORITHM = "sha256"
+
+
+def compute_hash(filepath: str, algorithm: str = DEFAULT_HASH_ALGORITHM) -> str:
+    """Compute a hash of a file using the given algorithm.
+
+    The algorithm is a parameter, not hardcoded, so it can be swapped from
+    configuration (manifest.json's "hash_algorithm" key) without a code
+    change. This is the crypto-agility change for HW7: this is only an
+    integrity hash, not a key-exchange or signature algorithm threatened by
+    a quantum computer, but the principle, keep the algorithm choice outside
+    the code, is the same one that matters for the TLS and key-exchange
+    settings this lab asks us to inventory.
+    """
+    h = hashlib.new(algorithm)
     with open(filepath, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
-            sha256.update(chunk)
-    return sha256.hexdigest()
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def load_eval_set(filepath: str) -> list[dict]:
@@ -303,10 +315,17 @@ def main():
         print(f"ERROR: {eval_set_path} not found")
         sys.exit(1)
 
+    # The hash algorithm is read from manifest.json when it exists, so it can
+    # change (e.g. to a post-quantum-safe hash, should SHA-256 ever need
+    # replacing) by editing configuration, not this file.
+    hash_algorithm = DEFAULT_HASH_ALGORITHM
+    if os.path.exists(manifest_path):
+        hash_algorithm = load_manifest(manifest_path).get("hash_algorithm", DEFAULT_HASH_ALGORITHM)
+
     if args.hash:
         # Just print hash
-        hash_value = compute_hash(eval_set_path)
-        print(f"SHA-256: {hash_value}")
+        hash_value = compute_hash(eval_set_path, hash_algorithm)
+        print(f"{hash_algorithm.upper()}: {hash_value}")
         return
 
     if not os.path.exists(manifest_path):
@@ -318,7 +337,7 @@ def main():
     manifest = load_manifest(manifest_path)
 
     # Verify hash matches manifest
-    computed_hash = compute_hash(eval_set_path)
+    computed_hash = compute_hash(eval_set_path, hash_algorithm)
     manifest_hash = manifest.get("eval_set_hash", "")
 
     if computed_hash != manifest_hash:
