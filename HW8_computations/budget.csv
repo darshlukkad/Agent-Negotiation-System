@@ -1,0 +1,12 @@
+component,ms,source
+user to app: TCP connect,25,rtt_probe.py from local machine (median of 20)
+user to app: TLS handshake,28,rtt_probe.py tls median from local machine
+app to OpenAI API: TCP connect,18,rtt_probe.py from local machine to api.openai.com
+app to OpenAI API: TLS handshake,22,rtt_probe.py tls median
+prompt analysis (local),5,estimate: regex parsing and option extraction in Python
+agent spawning (local),2,estimate: instantiate 3 agent objects with weights
+negotiation round 1,180,estimate: LLM inference for 3 agents propose/challenge/compromise
+negotiation round 2,180,estimate: LLM inference for 3 agents propose/challenge/compromise
+negotiation round 3,180,estimate: LLM inference for 3 agents propose/challenge/compromise
+solver aggregation (local),3,estimate: score aggregation and response formatting
+LLM time to first token,350,estimate from OpenAI status page for gpt-4o-mini

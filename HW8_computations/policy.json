@@ -1,0 +1,22 @@
+{
+  "about": "Agent Negotiation System deployment: user interface, negotiation engine, LLM API, CI/CD pipeline, and admin access",
+  "zones": ["internet", "user_client", "app_server", "llm_api", "github_actions", "admin"],
+  "ports": [22, 80, 443, 8000],
+  "rules": [
+    ["internet", "user_client", 443, "allow"],
+    ["user_client", "app_server", 8000, "allow"],
+    ["app_server", "llm_api", 443, "allow"],
+    ["github_actions", "app_server", 443, "allow"],
+    ["github_actions", "app_server", 22, "allow"],
+    ["admin", "app_server", 22, "allow"],
+    ["admin", "github_actions", 443, "allow"],
+    ["internet", "any", "any", "deny"]
+  ],
+  "invariants": [
+    {"kind": "must_reach", "from": "user_client", "to": "app_server", "port": 8000},
+    {"kind": "must_reach", "from": "app_server", "to": "llm_api", "port": 443},
+    {"kind": "must_not_reach", "from": "internet", "to": "llm_api", "port": "any"},
+    {"kind": "must_not_reach", "from": "user_client", "to": "llm_api", "port": "any"},
+    {"kind": "only_reaches", "from": "user_client", "allowed": [["app_server", 8000]]}
+  ]
+}

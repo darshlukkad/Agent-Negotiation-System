@@ -1,0 +1,5 @@
+endpoint,ok,failed,tcp_median_ms,tcp_p95_ms,tls_median_ms,first_error
+api.openai.com:443,20,0,10.54,18.47,17.5,
+github.com:443,20,0,24.28,29.44,31.1,
+api.github.com:443,20,0,24.31,34.98,30.04,
+pypi.org:443,20,0,54.38,73.14,63.34,

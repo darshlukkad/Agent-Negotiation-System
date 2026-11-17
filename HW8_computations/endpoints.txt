@@ -1,0 +1,8 @@
+# Agent Negotiation System endpoints
+# LLM Provider (OpenAI API)
+api.openai.com:443
+# GitHub (for CI/CD pipeline)
+github.com:443
+api.github.com:443
+# Python Package Index (for dependencies)
+pypi.org:443
